@@ -1,6 +1,5 @@
-import { badRequest, notFound } from "../utils/api-error";
 import prisma from "../prisma";
-import { NextFunction } from "express";
+import { badRequest, notFound } from "../utils/api-error";
 
 // @return User object
 
@@ -28,6 +27,8 @@ export const getUserById = async (userId: number) => {
 
     return user
 };
+
+// @return Deleted user
 
 export const deleteAccount = async (userId: number) => {
 

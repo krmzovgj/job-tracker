@@ -23,7 +23,7 @@ export const createJob = async (
         res.status(201).json({ job });
     } catch (error: any) {
         if (error.message) {
-            res.status(error.statusCode).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 };
@@ -45,7 +45,7 @@ export const updateJob = async (
         res.status(200).json({ job });
     } catch (error: any) {
         if (error.message) {
-            res.status(error.statusCode).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 };
@@ -65,7 +65,7 @@ export const getAllJobs = async (
         res.status(200).json(jobs);
     } catch (error: any) {
         if (error.message) {
-            res.status(error.statusCode).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 };
@@ -88,7 +88,8 @@ export const deleteJob = async (
         });
     } catch (error: any) {
         if (error.message) {
-            res.status(error.statusCode).json({ message: error.message });
+            return res.status(error.statusCode).json({ message: error.message });
         }
     }
 };
+
