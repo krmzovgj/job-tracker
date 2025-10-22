@@ -1,16 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 interface AuthRequest extends Request {
     user?: {
         id: number;
         email: string;
     };
-}
-
-interface TokenPayload extends JwtPayload {
-    id: number;
-    email: string;
 }
 
 export const verifyToken = (
@@ -21,7 +16,7 @@ export const verifyToken = (
     const header = req.headers.authorization;
 
     if (!header) {
-        res.status(403).json({
+        return res.status(403).json({
             message: "No Access token provided",
         });
     }
@@ -29,17 +24,16 @@ export const verifyToken = (
     const token = header?.split(" ")[1];
 
     if (!token) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Invalid token",
         });
     }
 
     try {
-        const decoded = jwt.verify(
-            token!,
-            process.env.SECRET_KEY!
-        ) as TokenPayload;
-
+         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+            id: number;
+            email: string;
+        };
         req.user = decoded;
         next();
     } catch (error) {

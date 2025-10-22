@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import errorHandler from "./middleware/error-handler";
 import authRouter from "./routes/auth.route";
 import userRouter from './routes/user.route'
+import jobRouter from './routes/job.route'
 
 const PORT = process.env.PORT || 8080;
 
@@ -17,6 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter)
+app.use("/job", jobRouter)
 
 app.use(errorHandler);
 
