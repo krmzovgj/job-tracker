@@ -6,5 +6,7 @@ const router = express.Router();
 
 router.post("/", verifyToken, jobController.createJob);
 router.put("/:id", verifyToken, jobController.updateJob);
+router.get("/", verifyToken, jobController.getAllJobs);
+router.delete("/:id", verifyToken, jobController.deleteJob)
 
 export default router;

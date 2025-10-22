@@ -31,7 +31,11 @@ export const createJob = async (
 // @desc Update job
 // @route /:id
 
-export const updateJob = async (req: Request, res: Response, next: NextFunction) => {
+export const updateJob = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     const { company, status, source } = req.body;
     const jobId = req.params.id;
 
@@ -39,6 +43,49 @@ export const updateJob = async (req: Request, res: Response, next: NextFunction)
         const job = await jobService.updateJob(jobId, company, status, source);
 
         res.status(200).json({ job });
+    } catch (error: any) {
+        if (error.message) {
+            res.status(error.statusCode).json({ message: error.message });
+        }
+    }
+};
+
+// @desc Get jobs by user id
+// @route GET /
+
+export const getAllJobs = async (
+    req: JobRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    const userId = req.user?.id;
+    try {
+        const jobs = await jobService.getAllJobs(userId!);
+
+        res.status(200).json(jobs);
+    } catch (error: any) {
+        if (error.message) {
+            res.status(error.statusCode).json({ message: error.message });
+        }
+    }
+};
+
+// @desc Delete Job
+// @route DELETE /:id
+
+export const deleteJob = async (
+    req: JobRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    const jobId = req.params.id;
+
+    try {
+        await jobService.deleteJob(jobId);
+
+        res.status(200).json({
+            message: "Job deleted successfuly",
+        });
     } catch (error: any) {
         if (error.message) {
             res.status(error.statusCode).json({ message: error.message });
