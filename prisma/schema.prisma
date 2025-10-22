@@ -26,7 +26,7 @@ model User {
 model Job {
   id        String    @unique @default(uuid())
   company   String
-  status    JobStatus
+  status    JobStatus @default(Applied)
   source    String
   notes     Note[]
   userId    Int
