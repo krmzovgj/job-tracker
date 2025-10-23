@@ -58,6 +58,28 @@ export const getNotes = async (
     }
 };
 
+// @desc Update note
+// @route PUT /:id
+
+export const updateNote = async (
+    req: NoteRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    const noteId = req.params.id;
+    const userId = req.user?.id;
+    const { content } = req.body;
+
+    try {
+        const note = await noteService.updateNote(noteId, content, userId!);
+        res.status(200).json({ note });
+    } catch (error: any) {
+        if (error.message) {
+            res.status(error.statusCode).json({ message: error.message });
+        }
+    }
+};
+
 // @desc Delete note
 // @route DELETE /:id
 

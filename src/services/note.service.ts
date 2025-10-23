@@ -40,6 +40,44 @@ export const getNotes = async (userId: number, jobId: string | null) => {
     return notes;
 };
 
+// @return Updated note object
+
+export const updateNote = async (
+    noteId: string,
+    content: string,
+    userId: number
+) => {
+    if (!noteId) {
+        throw badRequest("Note id is required");
+    }
+
+    const note = await prisma.note.findUnique({
+        where: {
+            id: noteId,
+            userId,
+        },
+    });
+
+    if (!note) {
+        throw unauthorized("Premission denied");
+    }
+
+    const updatedNote = await prisma.note.update({
+        where: {
+            id: noteId,
+        },
+        data: {
+            content,
+        },
+    });
+
+    if (!updatedNote) {
+        throw notFound("Note not found");
+    }
+
+    return updatedNote;
+};
+
 // @return Deleted note confirmation
 
 export const deleteNote = async (noteId: string, userId: number) => {
